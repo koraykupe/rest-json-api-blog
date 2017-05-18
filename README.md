@@ -10,10 +10,11 @@ A Basic Blog with Rest Json Api
 I tried to follow jsonapi.org standards, PSR-2 code style, PSR-4 for autoloading. You should use SSL in your prod environment.
 
 # Tests
-Run `./vendor/bin/simple-phpunit` to run the tests . It will install phpunit packages at first.
-You have to allow your ip address in the `web/app_dev.php` file in web folder, or just remove the complete security in that file.
-You can create a phpunit.xml file by copying phpunit.xml.dist and add `<directory>src/*Bundle/Tests</directory>` within it.
-Then, you can use `./vendor/bin/simple-phpunit -c phpunit.xml` to run the tests.s
+* Run `./vendor/bin/simple-phpunit` to run the tests . It will install phpunit packages at first.
+* You have to allow your ip address in the `web/app_dev.php` file in web folder, or just remove the complete security in that file.
+* Copy the phpunit config `cp phpunit.xml.dist phpunit.xml`
+* Open phpunit.xml and add `<directory>src/*Bundle/Tests</directory>` within it.
+* Then, you can use `./vendor/bin/simple-phpunit -c phpunit.xml` to run the tests.s
 
 # 3rd Party Packages
 * Guzzle to make requests in tests
@@ -22,6 +23,7 @@ Then, you can use `./vendor/bin/simple-phpunit -c phpunit.xml` to run the tests.
 # Bundles
 * FOSRestBundle: Accepts requests and returns appropriate response accordingly.
 * JMSSerializerBundle: It serialize data according to requested format (e.g json, xml, yaml)
+* DoctrineFixturesBundle: To purge database after running the tests
 
 # To-do
 * User registration and login system (multi users)

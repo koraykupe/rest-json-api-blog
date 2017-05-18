@@ -24,7 +24,10 @@ class ArticleControllerTest extends ApiTestCase
 
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertTrue($response->hasHeader('Location'));
+
         $responseData = \GuzzleHttp\json_decode($response->getBody(true), true);
+        $this->assertSame($title, $responseData['title']);
+        $this->assertSame($content, $responseData['content']);
         $this->assertArrayHasKey('title', $responseData);
         $this->assertArrayHasKey('content', $responseData);
     }
