@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ArticleController extends Controller
 {
     /**
-     * @Route("/api/article/{id}")
+     * @Route("/api/article/{id}", name="api_article_show")
      * @Method("GET")
      * @param $id
      * @return Response
@@ -22,15 +22,21 @@ class ArticleController extends Controller
         $article = $this->getDoctrine()->getRepository('AppBundle:Article')->find($id);
 
         if ($article === null) {
-            return new Response("article not found", Response::HTTP_NOT_FOUND);
+            throw $this->createNotFoundException(sprintf(
+                'No article found with "%s id"',
+                $id
+            ));
+            // return new Response("article not found", Response::HTTP_NOT_FOUND);
         }
 
-        $response['data'] = array(
+        // Prepare the response data
+        $data = array(
             'title' => $article->getTitle(),
             'content' => $article->getContent(),
         );
 
-        return new Response(json_encode($response), 200);
+        $response = new Response(json_encode($data), 200);
+        return $response;
     }
 
     /**
@@ -58,8 +64,17 @@ class ArticleController extends Controller
         $em->flush();
 
         $response = new Response('Created!', 201);
+
+        // Generate the url for created article
+        $articleUrl = $this->generateUrl(
+            'api_article_show',
+            ['id' => $article->getId()]
+        );
         // Add location header
-        $response->headers->set('Location', '/api/article/id');
+        $response->headers->set('Location', $articleUrl);
+
+        // Set content type in header
+        $response->headers->set('Content-Type', 'application/json');
 
         return $response;
     }
