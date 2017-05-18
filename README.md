@@ -105,7 +105,7 @@ Example Output:
 
 # Bundles
 * FOSRestBundle: Accepts requests and returns appropriate response accordingly.
-* 
+* LexikJWTAuthenticationBundle: Provides JWT authentication for your Symfony REST API
 * JMSSerializerBundle: It serialize data according to requested format (e.g json, xml, yaml)
 * DoctrineFixturesBundle: To purge database after running the tests
 
