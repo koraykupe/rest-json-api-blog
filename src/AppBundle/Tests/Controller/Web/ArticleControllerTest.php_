@@ -1,0 +1,37 @@
+<?php
+
+namespace AppBundle\Tests\Controller\Web;
+
+use Faker\Factory;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class ArticleControllerTest extends WebTestCase
+{
+    public function testCreateAction()
+    {
+        $client = static::createClient();
+
+        // Generate Fake Data
+        $faker = Factory::create();
+        $title = $faker->sentence(6);
+        $content = $faker->text();
+
+        $data = array(
+            'title' =>  $title,
+            'content' => $content
+        );
+
+        $crawler = $client->request(
+            'POST',
+            '/api/articles',
+            [
+                'body' => \GuzzleHttp\json_encode($data)
+            ]);
+
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('html:contains("Hello World")')->count()
+        );
+    }
+
+}
