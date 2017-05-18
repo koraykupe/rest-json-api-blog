@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace AppBundle\Tests\Controller\Api;
 
@@ -14,7 +15,7 @@ class ApiTestCase extends KernelTestCase
     public static function setUpBeforeClass()
     {
         self::$staticClient = new Client([
-            'base_uri' => 'http://blog.app',
+            'base_uri' => getenv('TEST_BASE_URL'),
             'defaults' => [
                 'exceptions' => false
             ]

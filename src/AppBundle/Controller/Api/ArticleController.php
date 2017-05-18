@@ -54,7 +54,6 @@ class ArticleController extends Controller
         }
 
         $response = new JsonResponse($data, 200);
-        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
@@ -89,8 +88,6 @@ class ArticleController extends Controller
         $response = new JsonResponse($data, 201);
         // Add location header
         $response->headers->set('Location', $articleUrl);
-        // Set content type in header
-        $response->headers->set('Content-Type', 'application/json');
 
         return $response;
     }

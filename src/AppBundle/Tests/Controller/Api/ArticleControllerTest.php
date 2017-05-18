@@ -5,7 +5,6 @@ namespace AppBundle\Tests\Controller\Api;
 use AppBundle\Entity\Article;
 use Doctrine\ORM\EntityManager;
 use Faker\Factory;
-use GuzzleHttp\Client;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class ArticleControllerTest extends ApiTestCase
@@ -43,7 +42,7 @@ class ArticleControllerTest extends ApiTestCase
         $response = $this->client->get('/api/articles/'.$article->getId());
         $this->assertEquals(200, $response->getStatusCode());
         $data = \GuzzleHttp\json_decode($response->getBody(), true);
-        
+
         $this->assertEquals(array(
             'title',
             'content'

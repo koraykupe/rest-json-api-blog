@@ -5,3 +5,6 @@ app_api:
 app_web:
     resource: '@AppBundle/Controller/Web'
     type: annotation
+
+api_login_check:
+    path: /api/login_check
