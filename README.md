@@ -12,7 +12,8 @@ I tried to follow jsonapi.org standards, PSR-2 code style, PSR-4 for autoloading
 # Tests
 Run `./vendor/bin/simple-phpunit` to run the tests . It will install phpunit packages at first.
 You have to allow your ip address in the `web/app_dev.php` file in web folder, or just remove the complete security in that file.
-
+You can create a phpunit.xml file by copying phpunit.xml.dist and add `<directory>src/*Bundle/Tests</directory>` within it.
+Then, you can use `./vendor/bin/simple-phpunit -c phpunit.xml` to run the tests.s
 
 # 3rd Party Packages
 * Guzzle to make requests in tests

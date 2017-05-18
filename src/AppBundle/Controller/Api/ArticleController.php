@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ArticleController extends Controller
 {
     /**
-     * @Route("/api/article/{id}", name="api_article_show")
+     * @Route("/api/articles/{id}", name="api_article_show")
      * @Method("GET")
      * @param $id
      * @return JsonResponse
@@ -38,7 +38,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/api/article/list")
+     * @Route("/api/articles/list")
      * @Method("GET")
      */
     public function listAction() :JsonResponse
@@ -59,7 +59,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/api/article")
+     * @Route("/api/articles")
      * @Method("POST")
      * @param Request $request
      * @return JsonResponse

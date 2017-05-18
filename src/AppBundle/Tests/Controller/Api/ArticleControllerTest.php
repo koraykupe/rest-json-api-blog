@@ -1,22 +1,13 @@
 <?php
 
-namespace Tests\AppBundle\Controller;
-
+namespace AppBundle\Tests\Controller\Api;
 
 use Faker\Factory;
-use GuzzleHttp\Client;
 
-class ArticleControllerTest extends \PHPUnit_Framework_TestCase
+class ArticleControllerTest extends ApiTestCase
 {
     public function testPOST()
     {
-        $client = new Client([
-            'base_uri' => 'http://blog.app',
-            'defaults' => [
-                'exceptions' => false
-            ]
-        ]);
-
         // Generate Fake Data
         $faker = Factory::create();
         $title = $faker->sentence(6);
@@ -27,11 +18,14 @@ class ArticleControllerTest extends \PHPUnit_Framework_TestCase
             'content' => $content
         );
 
-        $response = $client->post('/api/article', [
+        $response = $this->client->post('/api/articles', [
            'body' => \GuzzleHttp\json_encode($data)
         ]);
 
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertTrue($response->hasHeader('Location'));
+        $responseData = \GuzzleHttp\json_decode($response->getBody(true), true);
+        $this->assertArrayHasKey('title', $responseData);
+        $this->assertArrayHasKey('content', $responseData);
     }
 }
