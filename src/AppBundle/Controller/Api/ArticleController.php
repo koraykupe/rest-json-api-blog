@@ -66,9 +66,11 @@ class ArticleController extends Controller
      */
     public function createAction(Request $request) :JsonResponse
     {
+        $requestContent = json_decode($request->getContent(), true);
+
         $article = new Article();
-        $article->setTitle($request->get('title'));
-        $article->setContent($request->get('content'));
+        $article->setTitle($requestContent['title']);
+        $article->setContent($requestContent['content']);
 
         // Run the Entity Manager
         $em = $this->getDoctrine()->getManager();

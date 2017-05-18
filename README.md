@@ -7,7 +7,16 @@ A Basic Blog with Rest Json Api
 * Run `php bin/console doctrine:database:create` to create the database
 
 # Description
-I tried to follow jsonapi.org standards, PSR-2 code style, PSR-4 for autoloading.
+I tried to follow jsonapi.org standards, PSR-2 code style, PSR-4 for autoloading. You should use SSL in your prod environment.
+
+# Tests
+Run `./vendor/bin/simple-phpunit` to run the tests . It will install phpunit packages at first.
+You have to allow your ip address in the `web/app_dev.php` file in web folder, or just remove the complete security in that file.
+
+
+# 3rd Party Packages
+* Guzzle to make requests in tests
+* Faker to generate some fake data in tests
 
 # Bundles
 * FOSRestBundle: Accepts requests and returns appropriate response accordingly.
