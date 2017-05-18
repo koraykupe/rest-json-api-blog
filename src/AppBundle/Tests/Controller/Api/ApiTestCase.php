@@ -9,9 +9,18 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ApiTestCase extends KernelTestCase
 {
+    /**
+     * @var
+     */
     private static $staticClient;
+    /**
+     * @var
+     */
     protected $client;
 
+    /**
+     * Pre actions
+     */
     public static function setUpBeforeClass()
     {
         self::$staticClient = new Client([
@@ -24,6 +33,9 @@ class ApiTestCase extends KernelTestCase
         self::bootKernel();
     }
 
+    /**
+     * Pre actions
+     */
     protected function setUp()
     {
         $this->client = self::$staticClient;
@@ -38,13 +50,17 @@ class ApiTestCase extends KernelTestCase
     {
     }
 
+    /**
+     * @param $id
+     * @return object
+     */
     protected function getService($id)
     {
         return self::$kernel->getContainer()
             ->get($id);
     }
 
-    /*
+    /**
      * Purge database after each test executing
      */
     private function purgeDatabase()

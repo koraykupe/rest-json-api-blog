@@ -16,6 +16,12 @@ You should use SSL in your prod environment.
 
 JWT is used to secure the API.
 
+Doctrine2 is used for entities and database actions.
+
+# Requirements
+* PHP7.0 or later
+* OpenSSL
+
 # Tests
 * Run `./vendor/bin/simple-phpunit` to run the tests . It will install phpunit packages at first.
 * You have to allow your ip address in the `web/app_dev.php` file in web folder, or just remove the complete security in that file.
@@ -27,10 +33,74 @@ JWT is used to secure the API.
 All API endpoints start with `/api/`
 
 **Get a Token**
+
 `POST /api/tokens`
 
+**Create an Article**
+
+`POST /api/articles`
+
+Example input:
+
+```json
+{
+	"title": "Test",
+	"content": "Lorem ipsum..."
+}
+```
+
+
+Example Output:
+
+```json
+{
+    "id": 1,
+	"title": "Test",
+	"content": "Lorem ipsum..."
+}
+```
+ 
+**Get An Article**
+
+`GET /api/articles/{id}`
+
+Example Output:
+
+```json
+{
+  "id": 1,
+  "title": "Test",
+  "content": "Lorem ipsum..."
+}
+```
+ 
+ 
+**Get All Articles** 
+
+`GET /api/articles/list`
+
+Example Output:
+
+```json
+{
+   "articles": [
+     {
+       "id": 1,
+       "title": "Demneme",
+       "content": "DSFdsfsd dsf"
+     },
+     {
+       "id": 2,
+       "title": "Demneme",
+       "content": "DSFdsfsd dsf"
+     }
+   ]
+ }
+ ```
+
+
 # 3rd Party Packages
-* Guzzle to make requests in tests
+* Guzzle to make HTTP requests in tests
 * Faker to generate some fake data in tests
 
 # Bundles
@@ -40,10 +110,13 @@ All API endpoints start with `/api/`
 * DoctrineFixturesBundle: To purge database after running the tests
 
 # To-do
+* Frontend part
 * Using a Serializer
 * Return article data in data variable
+* Repositories
 * Filters and ordering options for list service
 * Pagination for list service
+* Better error codes
 * User registration and login system (multi users)
 * Ability to update an article
 * Ability to delete an article

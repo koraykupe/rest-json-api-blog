@@ -12,7 +12,30 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ArticleController extends Controller
 {
+
     /**
+     * List all articles
+     * @Route("/api/articles/list")
+     * @Method("GET")
+     */
+    public function listAction() :JsonResponse
+    {
+        $articles = $this->getDoctrine()
+            ->getRepository('AppBundle:Article')
+            ->findAll();
+
+        $data = array('articles' => array());
+
+        foreach ($articles as $article) {
+            $data['articles'][] = $this->serializeArticle($article);
+        }
+
+        $response = new JsonResponse($data, 200);
+        return $response;
+    }
+
+    /**
+     * Get an article by id
      * @Route("/api/articles/{id}", name="api_article_show")
      * @Method("GET")
      * @param $id
@@ -38,26 +61,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/api/articles/list")
-     * @Method("GET")
-     */
-    public function listAction() :JsonResponse
-    {
-        $articles = $this->getDoctrine()
-            ->getRepository('AppBundle:Article')
-            ->findAll();
-
-        $data = array('articles' => array());
-
-        foreach ($articles as $article) {
-            $data['articles'][] = $this->serializeArticle($article);
-        }
-
-        $response = new JsonResponse($data, 200);
-        return $response;
-    }
-
-    /**
+     * Add an article to database
      * @Route("/api/articles")
      * @Method("POST")
      * @param Request $request
@@ -100,6 +104,7 @@ class ArticleController extends Controller
     private function serializeArticle(Article $article) :array
     {
         return array(
+            'id' => $article->getId(),
             'title' => $article->getTitle(),
             'content' => $article->getContent(),
         );
