@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace AppBundle\Controller\Api;
 
@@ -17,9 +18,11 @@ class ArticleController extends Controller
      * @param $id
      * @return Response
      */
-    public function showAction($id)
+    public function showAction($id) :Response
     {
-        $article = $this->getDoctrine()->getRepository('AppBundle:Article')->find($id);
+        $article = $this->getDoctrine()
+            ->getRepository('AppBundle:Article')
+            ->find($id);
 
         if ($article === null) {
             throw $this->createNotFoundException(sprintf(
@@ -29,22 +32,31 @@ class ArticleController extends Controller
             // return new Response("article not found", Response::HTTP_NOT_FOUND);
         }
 
-        // Prepare the response data
-        $data = array(
-            'title' => $article->getTitle(),
-            'content' => $article->getContent(),
-        );
+        $data = $this->serializeArticle($article);
 
         $response = new Response(json_encode($data), 200);
         return $response;
     }
 
     /**
-     * @Route("/api/list")
+     * @Route("/api/article/list")
      * @Method("GET")
      */
-    public function listAction()
+    public function listAction() :Response
     {
+        $articles = $this->getDoctrine()
+            ->getRepository('AppBundle:Article')
+            ->findAll();
+
+        $data = array('articles' => array());
+
+        foreach ($articles as $article) {
+            $data['articles'][] = $this->serializeArticle($article);
+        }
+
+        $response = new Response(json_encode($data), 200);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
@@ -53,30 +65,46 @@ class ArticleController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request) :Response
     {
         $article = new Article();
         $article->setTitle($request->get('title'));
         $article->setContent($request->get('content'));
 
+        // Run the Entity Manager
         $em = $this->getDoctrine()->getManager();
         $em->persist($article);
         $em->flush();
 
-        $response = new Response('Created!', 201);
+        $data = $this->serializeArticle($article);
 
         // Generate the url for created article
         $articleUrl = $this->generateUrl(
             'api_article_show',
             ['id' => $article->getId()]
         );
+
+        // Prepare the response
+        $response = new Response(json_encode($data), 201);
         // Add location header
         $response->headers->set('Location', $articleUrl);
-
         // Set content type in header
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+
+    /**
+     * Transform Article array into JSON
+     * @param Article $article
+     * @return array
+     */
+    private function serializeArticle(Article $article) :array
+    {
+        return array(
+            'title' => $article->getTitle(),
+            'content' => $article->getContent(),
+        );
     }
 
 }
