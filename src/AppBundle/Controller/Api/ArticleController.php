@@ -7,8 +7,8 @@ use AppBundle\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ArticleController extends Controller
 {
@@ -16,9 +16,9 @@ class ArticleController extends Controller
      * @Route("/api/article/{id}", name="api_article_show")
      * @Method("GET")
      * @param $id
-     * @return Response
+     * @return JsonResponse
      */
-    public function showAction($id) :Response
+    public function showAction($id) :JsonResponse
     {
         $article = $this->getDoctrine()
             ->getRepository('AppBundle:Article')
@@ -33,8 +33,7 @@ class ArticleController extends Controller
         }
 
         $data = $this->serializeArticle($article);
-
-        $response = new Response(json_encode($data), 200);
+        $response = new JsonResponse($data, 200);
         return $response;
     }
 
@@ -42,7 +41,7 @@ class ArticleController extends Controller
      * @Route("/api/article/list")
      * @Method("GET")
      */
-    public function listAction() :Response
+    public function listAction() :JsonResponse
     {
         $articles = $this->getDoctrine()
             ->getRepository('AppBundle:Article')
@@ -54,7 +53,7 @@ class ArticleController extends Controller
             $data['articles'][] = $this->serializeArticle($article);
         }
 
-        $response = new Response(json_encode($data), 200);
+        $response = new JsonResponse($data, 200);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -63,9 +62,9 @@ class ArticleController extends Controller
      * @Route("/api/article")
      * @Method("POST")
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
-    public function createAction(Request $request) :Response
+    public function createAction(Request $request) :JsonResponse
     {
         $article = new Article();
         $article->setTitle($request->get('title'));
@@ -85,7 +84,7 @@ class ArticleController extends Controller
         );
 
         // Prepare the response
-        $response = new Response(json_encode($data), 201);
+        $response = new JsonResponse($data, 201);
         // Add location header
         $response->headers->set('Location', $articleUrl);
         // Set content type in header

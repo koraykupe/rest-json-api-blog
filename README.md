@@ -7,7 +7,7 @@ A Basic Blog with Rest Json Api
 * Run `php bin/console doctrine:database:create` to create the database
 
 # Description
-I tried to follow jsonap.org standards, PSR-2 code style, PSR-4 for autoloading.
+I tried to follow jsonapi.org standards, PSR-2 code style, PSR-4 for autoloading.
 
 # Bundles
 * FOSRestBundle: Accepts requests and returns appropriate response accordingly.
